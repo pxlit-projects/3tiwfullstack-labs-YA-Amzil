@@ -1,0 +1,32 @@
+version: "3.3"
+
+services:
+  employeeservice-db:
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: 'employeeservice_db'
+      MYSQL_USER: 'cloudpxl'
+      MYSQL_PASSWORD: 'cloudpxl'
+      MYSQL_ROOT_PASSWORD: 'root'
+
+  departmentservice-db:
+    image: mysql:latest
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_DATABASE: 'departmentservice_db'
+      MYSQL_USER: 'cloudpxl'
+      MYSQL_PASSWORD: 'cloudpxl'
+      MYSQL_ROOT_PASSWORD: 'root'
+
+  organizationservice-db:
+    image: mysql:latest
+    ports:
+      - "3308:3306"
+    environment:
+      MYSQL_DATABASE: 'organizationservice_db'
+      MYSQL_USER: 'cloudpxl'
+      MYSQL_PASSWORD: 'cloudpxl'
+      MYSQL_ROOT_PASSWORD: 'root'
