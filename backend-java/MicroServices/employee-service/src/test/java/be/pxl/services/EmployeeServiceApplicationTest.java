@@ -20,7 +20,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
+@SpringBootTest(classes = EmployeeServiceApplication.class)
 @Testcontainers
 @AutoConfigureMockMvc
 public class EmployeeServiceApplicationTest {

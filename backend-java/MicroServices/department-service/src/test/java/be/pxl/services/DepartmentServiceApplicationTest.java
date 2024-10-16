@@ -20,7 +20,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
+@SpringBootTest(classes = DepartmentServiceApplication.class)
 @Testcontainers
 @AutoConfigureMockMvc
 public class DepartmentServiceApplicationTest
@@ -81,7 +81,7 @@ public class DepartmentServiceApplicationTest
 
         departmentRepository.save(department);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/department/1"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/department/" + department.getId()))
                 .andExpect(status().isOk());
     }
 
@@ -95,7 +95,7 @@ public class DepartmentServiceApplicationTest
 
         departmentRepository.save(department);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/department/organization/1"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/department/organization/" + department.getOrganizationId()))
                 .andExpect(status().isOk());
     }
 
@@ -109,7 +109,7 @@ public class DepartmentServiceApplicationTest
 
         departmentRepository.save(department);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/department/organization/1/with-employees"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/department/organization/" + department.getOrganizationId() + "/with-employees"))
                 .andExpect(status().isOk());
     }
 }

@@ -16,9 +16,10 @@ import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
+@SpringBootTest(classes = OrganizationServiceApplication.class)
 @Testcontainers
 @AutoConfigureMockMvc
 public class OrganizationServiceApplicationTest {
@@ -48,6 +49,23 @@ public class OrganizationServiceApplicationTest {
     }
 
     @Test
+    public void testCreateOrganization() throws Exception {
+        Organization organization = Organization.builder()
+                .name("PXL")
+                .address("Elfde-Liniestraat 24")
+                .build();
+
+        String organizationString = objectMapper.writeValueAsString(organization);
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/organization")
+                        .contentType("application/json")
+                        .content(organizationString))
+                .andExpect(status().isCreated());
+
+        assertEquals(1, organizationRepository.findAll().size());
+    }
+
+    @Test
     public void testFindOrganizationById() throws Exception {
         Organization organization = Organization.builder()
                 .name("PXL")
@@ -56,7 +74,7 @@ public class OrganizationServiceApplicationTest {
 
         organizationRepository.save(organization);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/organization/1"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/organization/" + organization.getId()))
                 .andExpect(status().isOk());
     }
 
@@ -69,7 +87,7 @@ public class OrganizationServiceApplicationTest {
 
         organizationRepository.save(organization);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/organization/1/departments"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/organization/" + organization.getId() + "/with-departments"))
                 .andExpect(status().isOk());
     }
 
@@ -82,9 +100,8 @@ public class OrganizationServiceApplicationTest {
 
         organizationRepository.save(organization);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/organization/1/employees"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/organization/" + organization.getId() + "/with-departments-and-employees"))
                 .andExpect(status().isOk());
-
     }
 
     @Test
@@ -96,7 +113,7 @@ public class OrganizationServiceApplicationTest {
 
         organizationRepository.save(organization);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/organization/1/departments/employees"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/organization/" + organization.getId() + "/with-departments-and-employees"))
                 .andExpect(status().isOk());
     }
 }

@@ -34,6 +34,7 @@ public class DepartmentController {
     public ResponseEntity<DepartmentResponse> findDepartmentById(@PathVariable Long departmentId){
         return ResponseEntity.ok(departmentService.findDepartmentById(departmentId));
     }
+
     @GetMapping("/organization/{organizationId}")
     public ResponseEntity<List<DepartmentResponse>> findDepartmentByOrganization(@PathVariable Long organizationId) {
         return ResponseEntity.ok(departmentService.findDepartmentByOrganization(organizationId));

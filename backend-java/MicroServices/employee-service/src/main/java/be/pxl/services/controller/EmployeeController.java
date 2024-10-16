@@ -20,7 +20,7 @@ public class EmployeeController {
     @PostMapping
     public ResponseEntity<Void> addEmployee(@RequestBody EmployeeRequest employeeRequest) {
         employeeService.addEmployee(employeeRequest);
-        return ResponseEntity.status(HttpStatus.CREATED).build(); // HTTP 201 Created
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping
