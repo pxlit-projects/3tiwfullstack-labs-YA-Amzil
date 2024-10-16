@@ -14,7 +14,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-// Lomnok zorgt voor zaken als getter sen setters
+// Lombok zorgt ervoor dat de getters en setters gegenereerd worden
 public class Department {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

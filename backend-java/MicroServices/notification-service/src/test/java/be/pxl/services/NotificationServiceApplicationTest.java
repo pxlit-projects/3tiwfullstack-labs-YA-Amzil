@@ -25,7 +25,7 @@ public class NotificationServiceApplicationTest
      */
     public static Test suite()
     {
-        return new TestSuite( EmployeeServiceApplicationTest.class );
+        return new TestSuite( NotificationServiceApplication.class );
     }
 
     /**

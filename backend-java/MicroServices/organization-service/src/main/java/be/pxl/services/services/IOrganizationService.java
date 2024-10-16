@@ -7,10 +7,6 @@ import be.pxl.services.domain.dto.OrganizationResponse;
 import java.util.List;
 
 public interface IOrganizationService {
-
-
-    Organization addOrganization(Organization organization);
-
     OrganizationResponse findOrganizationById(Long organizationId);
 
     OrganizationResponse findByOrganizationIdWithDepartments(Long organizationId);

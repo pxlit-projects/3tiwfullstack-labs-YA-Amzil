@@ -1,13 +1,10 @@
 package be.pxl.services.services;
 
 import be.pxl.services.domain.Department;
-import be.pxl.services.domain.Employee;
 import be.pxl.services.domain.dto.DepartmentRequest;
 import be.pxl.services.domain.dto.DepartmentResponse;
-import be.pxl.services.domain.dto.EmployeeResponse;
 import be.pxl.services.exceptions.NotFoundException;
 import be.pxl.services.repository.DepartmentRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +17,15 @@ public class DepartmentService implements IDepartmentService {
 
     private final DepartmentRepository departmentRepository;
 
+    private DepartmentResponse mapToDepatmentResponse(Department department){
+        return DepartmentResponse.builder()
+                .organizationId(department.getOrganizationId())
+                .name(department.getName())
+                .employees(department.getEmployees())
+                .position(department.getPosition())
+                .build();
+    }
+
     @Override
     public void addDepartment(DepartmentRequest departmentRequest) {
         Department department = Department.builder()
@@ -31,13 +37,15 @@ public class DepartmentService implements IDepartmentService {
     }
 
     @Override
-    public List<Department> getAllDepartments() {
-        return departmentRepository.findAll();
+    public List<DepartmentResponse> getAllDepartments() {
+        return departmentRepository.findAll().stream().map(this::mapToDepatmentResponse).toList();
     }
 
     @Override
-    public Department findDepartmentById(Long departmentId) {
-        return departmentRepository.findById(departmentId).orElseThrow(() -> new NotFoundException("No department with id [" + departmentId + "]"));
+    public DepartmentResponse findDepartmentById(Long departmentId) {
+        Department department = departmentRepository.findById(departmentId)
+                .orElseThrow(() -> new NotFoundException("No department with id [" + departmentId + "]"));
+        return mapToDepatmentResponse(department);
     }
 
     @Override
@@ -46,12 +54,7 @@ public class DepartmentService implements IDepartmentService {
         if (departments.isEmpty()) {
             throw new NotFoundException("No departments found for organization with id [" + organizationId + "]");
         }
-        List<DepartmentResponse> departmentDTOS = new ArrayList<>();
-        for (Department department:departments
-        ) {
-            departmentDTOS.add(new DepartmentResponse(department.getOrganizationId(), department.getName(), department.getEmployees(), department.getPosition()));
-        }
-        return departmentDTOS;
+        return departments.stream().map(this::mapToDepatmentResponse).toList();
     }
 
     @Override
@@ -60,12 +63,7 @@ public class DepartmentService implements IDepartmentService {
         if (departments.isEmpty()) {
             throw new NotFoundException("No departments found for organization with id [" + organizationId + "]");
         }
-        List<DepartmentResponse> departmentDTOS = new ArrayList<>();
-        for (Department department:departments
-        ) {
-            departmentDTOS.add(new DepartmentResponse(department.getOrganizationId(), department.getName(), department.getEmployees(), department.getPosition()));
-        }
-        return departmentDTOS;
+        return departments.stream().map(this::mapToDepatmentResponse).toList();
     }
 
 }

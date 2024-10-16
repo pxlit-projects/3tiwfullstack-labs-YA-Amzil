@@ -9,9 +9,9 @@ import java.util.List;
 public interface IDepartmentService {
     void addDepartment(DepartmentRequest departmentRequest);
 
-    List<Department> getAllDepartments();
+    List<DepartmentResponse> getAllDepartments();
 
-    Department findDepartmentById(Long departmentId);
+    DepartmentResponse findDepartmentById(Long departmentId);
 
     List<DepartmentResponse> findDepartmentByOrganization(Long organizationId);
 

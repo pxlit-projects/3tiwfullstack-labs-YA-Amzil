@@ -19,27 +19,28 @@ public class DepartmentController {
 
     private final IDepartmentService departmentService;
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public void addDepartment(@RequestBody DepartmentRequest departmentRequest){
+    // @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<Void> addDepartment(@RequestBody DepartmentRequest departmentRequest){
         departmentService.addDepartment(departmentRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping
-    public ResponseEntity getDepartments(){
-        return new ResponseEntity(departmentService.getAllDepartments(), HttpStatus.OK);
+    public ResponseEntity<List<DepartmentResponse>> getDepartments(){
+        return ResponseEntity.ok(departmentService.getAllDepartments());
     }
+
     @GetMapping("/{departmentId}")
-    public ResponseEntity<Department> findDepartmentById(@PathVariable Long departmentId){
-        Department department = departmentService.findDepartmentById(departmentId);
-        return ResponseEntity.ok(department);
+    public ResponseEntity<DepartmentResponse> findDepartmentById(@PathVariable Long departmentId){
+        return ResponseEntity.ok(departmentService.findDepartmentById(departmentId));
     }
     @GetMapping("/organization/{organizationId}")
-    public List<DepartmentResponse> findDepartmentByOrganization(@PathVariable Long organizationId) {
-        return departmentService.findDepartmentByOrganization(organizationId);
+    public ResponseEntity<List<DepartmentResponse>> findDepartmentByOrganization(@PathVariable Long organizationId) {
+        return ResponseEntity.ok(departmentService.findDepartmentByOrganization(organizationId));
     }
     @GetMapping("/organization/{organizationId}/with-employees")
-    public List<DepartmentResponse> findDepartmentByOrganizationWithEmployees(@PathVariable Long organizationId) {
-        return departmentService.findDepartmentByOrganizationWithEmployees(organizationId);
+    public ResponseEntity<List<DepartmentResponse>> findDepartmentByOrganizationWithEmployees(@PathVariable Long organizationId) {
+        return ResponseEntity.ok(departmentService.findDepartmentByOrganizationWithEmployees(organizationId));
     }
 
 }
