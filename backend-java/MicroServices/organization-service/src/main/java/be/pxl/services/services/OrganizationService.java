@@ -1,5 +1,7 @@
 package be.pxl.services.services;
 
+import be.pxl.services.client.NotificationClient;
+import be.pxl.services.domain.NotificationRequest;
 import be.pxl.services.domain.Organization;
 import be.pxl.services.domain.dto.OrganizationRequest;
 import be.pxl.services.domain.dto.OrganizationResponse;
@@ -15,6 +17,7 @@ import java.util.List;
 public class OrganizationService implements IOrganizationService {
 
     private final OrganizationRepository organizationRepository;
+    private final NotificationClient notificationClient;
 
     private OrganizationResponse mapToOrganizationResponseWithDepartments(Organization organization) {
         return OrganizationResponse.builder()
@@ -48,6 +51,12 @@ public class OrganizationService implements IOrganizationService {
                 .address(organisationRequest.getAddress())
                 .build();
         organizationRepository.save(organization);
+
+        NotificationRequest notificationRequest = NotificationRequest.builder()
+                .message("Organisation [" + organization.getName() + "] added")
+                .sender("Tom")
+                .build();
+        notificationClient.sendNotification(notificationRequest);
     }
 
     @Override

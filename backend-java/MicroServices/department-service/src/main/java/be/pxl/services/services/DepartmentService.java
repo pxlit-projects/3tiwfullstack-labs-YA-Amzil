@@ -1,6 +1,8 @@
 package be.pxl.services.services;
 
+import be.pxl.services.client.NotificationClient;
 import be.pxl.services.domain.Department;
+import be.pxl.services.domain.NotificationRequest;
 import be.pxl.services.domain.dto.DepartmentRequest;
 import be.pxl.services.domain.dto.DepartmentResponse;
 import be.pxl.services.exceptions.NotFoundException;
@@ -16,6 +18,7 @@ import java.util.List;
 public class DepartmentService implements IDepartmentService {
 
     private final DepartmentRepository departmentRepository;
+    private final NotificationClient notificationClient;
 
     private DepartmentResponse mapToDepatmentResponse(Department department){
         return DepartmentResponse.builder()
@@ -34,6 +37,12 @@ public class DepartmentService implements IDepartmentService {
                 .position(departmentRequest.getPosition())
                 .build();
         departmentRepository.save(department);
+
+        NotificationRequest notificationRequest = NotificationRequest.builder()
+                .message("Department [" + department.getName() + "] added")
+                .sender("Tom")
+                .build();
+        notificationClient.sendNotification(notificationRequest);
     }
 
     @Override

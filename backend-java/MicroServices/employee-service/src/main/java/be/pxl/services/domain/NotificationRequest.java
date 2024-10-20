@@ -9,15 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-// Lomnok zorgt voor zaken als getter sen setters
-public class Notification {
-//    private Long id;
-//
-//    private String from;
-//
-//    private String subject;
+public class NotificationRequest {
 
-    private  String sender;
-
+    private String sender;
     private String message;
 }
